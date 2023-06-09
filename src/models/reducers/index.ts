@@ -3,10 +3,12 @@ import storage from "redux-persist/lib/storage";
 import {persistReducer} from "redux-persist";
 /** Reducers */
 import useAuthReducers from "./auth";
+import useProductsReducers from "./products";
 
 const useReducers = () => {
     return combineReducers({
-        ...useAuthReducers()
+        ...useAuthReducers(),
+        ...useProductsReducers()
     });
 }
 
@@ -15,6 +17,6 @@ const persistConfig = {
     storage
 }
 
-const persistedReducer = persistReducer(persistConfig, useReducers);
+const persistedReducer = persistReducer(persistConfig, useReducers());
 
 export default persistedReducer;

@@ -1,5 +1,5 @@
 export interface IUser {
-
+    name: string;
 }
 
 export interface IAuth {

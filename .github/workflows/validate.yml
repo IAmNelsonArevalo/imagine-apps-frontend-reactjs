@@ -28,29 +28,3 @@ jobs:
 
       - name: Execute Build
         run: npm run build
-
-      - name: Block pull request until Cypress tests pass
-        run: |
-          # Get the pull request number
-          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-
-          # Wait for the checks to complete
-          echo "Waiting for Cypress tests to complete..."
-          STATUS="pending"
-          while [[ "$STATUS" != "completed" ]]; do
-            STATUS=$(curl -s -H "Accept: application/vnd.github.v3+json" \
-              "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/check-suites" \
-              | jq --raw-output '.check_suites[0].status')
-            echo "Check status: $STATUS"
-            sleep 5
-          done
-
-          # Get the conclusion of the last check suite
-          CONCLUSION=$(curl -s -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/check-suites" \
-            | jq --raw-output '.check_suites[0].conclusion')
-
-          if [[ "$CONCLUSION" != "success" ]]; then
-            echo "Cypress tests failed. Cannot merge pull request."
-            exit 1
-          fi

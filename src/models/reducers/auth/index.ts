@@ -32,7 +32,7 @@ const useAuthReducers = () => {
         [LOGIN](state: TStates, action: TAction<IAuth>) {
             return {
                 ...state,
-                ...action
+                ...action.payload
             }
         }
     });

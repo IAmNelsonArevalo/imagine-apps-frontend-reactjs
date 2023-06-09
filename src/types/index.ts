@@ -1,8 +1,10 @@
 import useAuthTypes from "./auth";
+import useProductsTypes from "./products";
 
 const useTypes = () => {
     return {
-        useAuthTypes
+        useAuthTypes,
+        useProductsTypes
     };
 }
 
